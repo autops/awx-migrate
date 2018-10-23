@@ -21,7 +21,7 @@ Things that are not migrated
 ----------------------------------
 
 * logs
-* encrypted data in de conf_setting table (e.g. LDAP Bind password)
+* encrypted data in the conf_setting table (e.g. LDAP Bind password)
 
 
 Requirements
@@ -39,13 +39,13 @@ Python
 Configuration
 -------------
 
-AWX - separately config how to connect to both the old and the new instance
+AWX - separately configure how to connect to both the old and the new instance
 
 * The AWX secret_key, used to encrypt and decrypt secrets
 * credentials for an AWX admin user
 * connection information and credentials to directly access the postgresql DB
 
-and this for both the source and destination AWX instance and it's postgresql database
+and this for both the source and destination AWX instance and its postgresql database
 
 
 How-to
