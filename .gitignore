@@ -1,3 +1,6 @@
 Pipfile.lock
+awx-migrate-wrapper
 *.pickle
 *.json
+*.log
+*.pyc
