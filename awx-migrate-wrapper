@@ -2,18 +2,18 @@
 
 ## overrule where needed
 
-#export AWX_SECRET_KEY='awxsecret'
-#export AWX_DBNAME='awx'
-#export AWX_DBUSER='awx'
-#export AWX_DBPASSWORD='awxpass'
-#export AWX_DBHOST='localhost'
-#export AWX_DBPORT='5432'
-#export AWX_DATA_CACHE='awx-data.pickle'
-#export AWX2_SECRET_KEY='awxsecret'
-#export AWX2_DBNAME='awx'
-#export AWX2_DBUSER='awx'
-#export AWX2_DBPASSWORD='awxpass'
-#export AWX2_DBHOST='localhost'
-#export AWX2_DBPORT='5433'
+#export AWX_SRC_SECRET_KEY='awxsecret'
+#export AWX_SRC_DBNAME='awx'
+#export AWX_SRC_DBUSER='awx'
+#export AWX_SRC_DBPASSWORD='awxpass'
+#export AWX_SRC_DBHOST='localhost'
+#export AWX_SRC_DBPORT='5432'
+#export AWX_SRC_DATA_CACHE='awx-data.pickle'
+#export AWX_DST_SECRET_KEY='awxsecret'
+#export AWX_DST_DBNAME='awx'
+#export AWX_DST_DBUSER='awx'
+#export AWX_DST_DBPASSWORD='awxpass'
+#export AWX_DST_DBHOST='localhost'
+#export AWX_DST_DBPORT='5433'
 
 ./awx-receive $0

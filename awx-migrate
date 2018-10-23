@@ -23,21 +23,21 @@ import psycopg2.extras
 
 
 # default vales as per openshift deploy of AWX
-AWX_SECRET_KEY = os.getenv('AWX_SECRET_KEY', 'awxsecret')
-AWX_DBNAME = os.getenv('AWX_DBNAME', 'awx')
-AWX_DBUSER = os.getenv('AWX_DBUSER', 'awx')
-AWX_DBPASSWORD = os.getenv('AWX_DBPASSWORD', 'awxpass')
-AWX_DBHOST = os.getenv('AWX_DBHOST', 'localhost')
-AWX_DBPORT = os.getenv('AWX_DBPORT', '5432')
+AWX_SRC_SECRET_KEY = os.getenv('AWX_SRC_SECRET_KEY', 'awxsecret')
+AWX_SRC_DBNAME = os.getenv('AWX_SRC_DBNAME', 'awx')
+AWX_SRC_DBUSER = os.getenv('AWX_SRC_DBUSER', 'awx')
+AWX_SRC_DBPASSWORD = os.getenv('AWX_SRC_DBPASSWORD', 'awxpass')
+AWX_SRC_DBHOST = os.getenv('AWX_SRC_DBHOST', 'localhost')
+AWX_SRC_DBPORT = os.getenv('AWX_SRC_DBPORT', '5432')
 
-AWX2_SECRET_KEY = os.getenv('AWX2_SECRET_KEY', 'awxsecret')
-AWX2_DBNAME = os.getenv('AWX2_DBNAME', 'awx')
-AWX2_DBUSER = os.getenv('AWX2_DBUSER', 'awx')
-AWX2_DBPASSWORD = os.getenv('AWX2_DBPORT2_DBPASSWORD', 'awxpass')
-AWX2_DBHOST = os.getenv('AWX2_DBHOST', 'localhost')
-AWX2_DBPORT = os.getenv('AWX2_DBPORT', '5433')
+AWX_DST_SECRET_KEY = os.getenv('AWX_DST_SECRET_KEY', 'awxsecret')
+AWX_DST_DBNAME = os.getenv('AWX_DST_DBNAME', 'awx')
+AWX_DST_DBUSER = os.getenv('AWX_DST_DBUSER', 'awx')
+AWX_DST_DBPASSWORD = os.getenv('AWX_DST_DBPORT2_DBPASSWORD', 'awxpass')
+AWX_DST_DBHOST = os.getenv('AWX_DST_DBHOST', 'localhost')
+AWX_DST_DBPORT = os.getenv('AWX_DST_DBPORT', '5433')
 
-AWX_DATA_CACHE = os.getenv('AWX_DATA_CACHE', 'awx-data.pickle')
+AWX_SRC_DATA_CACHE = os.getenv('AWX_SRC_DATA_CACHE', 'awx-data.pickle')
 
 
 class Fernet256(Fernet):
@@ -72,7 +72,7 @@ def get_encryption_key(field_name, pk=None):
                that is not database-persistent (like a read-only setting)
     '''
     h = hashlib.sha512()
-    h.update(AWX_SECRET_KEY)
+    h.update(AWX_SRC_SECRET_KEY)
     if pk is not None:
         h.update(str(pk))
     h.update(field_name)
@@ -109,8 +109,8 @@ def awx_get_data():
     export it with tower-cli and save it in the cached file
     '''
 
-    if os.path.isfile(AWX_DATA_CACHE) and os.access(AWX_DATA_CACHE, os.W_OK):
-        awx_data = pickle.load(open(AWX_DATA_CACHE, "rb"))
+    if os.path.isfile(AWX_SRC_DATA_CACHE) and os.access(AWX_SRC_DATA_CACHE, os.W_OK):
+        awx_data = pickle.load(open(AWX_SRC_DATA_CACHE, "rb"))
     else:
         awx_data = _awx_get_data()
         _awx_dump_data(awx_data)
@@ -150,7 +150,7 @@ def _awx_dump_data(data):
     write awx_data to cache file
     '''
 
-    pickle.dump(data, open(AWX_DATA_CACHE, "wb"))
+    pickle.dump(data, open(AWX_SRC_DATA_CACHE, "wb"))
 
 
 def awx_getdb_creds():
@@ -163,9 +163,9 @@ def awx_getdb_creds():
 
     # oc --namespace=oldawx port-forward postgresql-5-phl5d 5432:5432
     try:
-        conn = psycopg2.connect(dbname=AWX_DBNAME, user=AWX_DBUSER,
-                                password=AWX_DBPASSWORD, host=AWX_DBHOST,
-                                port=AWX_DBPORT)
+        conn = psycopg2.connect(dbname=AWX_SRC_DBNAME, user=AWX_SRC_DBUSER,
+                                password=AWX_SRC_DBPASSWORD, host=AWX_SRC_DBHOST,
+                                port=AWX_SRC_DBPORT)
     except Exception as e:
         sys.stderr.write("I am unable to connect to the database:\n\n%s\n" % e)
         sys.exit(1)
@@ -274,9 +274,9 @@ def awx_migratedb_conf():
 
     # oc --namespace=oldawx port-forward postgresql-5-phl5d 5432:5432
     try:
-        conn1 = psycopg2.connect(dbname=AWX_DBNAME, user=AWX_DBUSER,
-                                 password=AWX_DBPASSWORD, host=AWX_DBHOST,
-                                 port=AWX_DBPORT)
+        conn1 = psycopg2.connect(dbname=AWX_SRC_DBNAME, user=AWX_SRC_DBUSER,
+                                 password=AWX_SRC_DBPASSWORD, host=AWX_SRC_DBHOST,
+                                 port=AWX_SRC_DBPORT)
     except Exception as e:
         sys.stderr.write("I am unable to connect to source database:\n\n%s\n" % e)
         sys.exit(1)
@@ -288,9 +288,9 @@ def awx_migratedb_conf():
 
     # oc --namespace=newawx port-forward postgresql-5-phl5d 5433:5432
     try:
-        conn2 = psycopg2.connect(dbname=AWX2_DBNAME, user=AWX2_DBUSER,
-                                 password=AWX2_DBPASSWORD, host=AWX2_DBHOST,
-                                 port=AWX2_DBPORT)
+        conn2 = psycopg2.connect(dbname=AWX_DST_DBNAME, user=AWX_DST_DBUSER,
+                                 password=AWX_DST_DBPASSWORD, host=AWX_DST_DBHOST,
+                                 port=AWX_DST_DBPORT)
     except Exception as e:
         sys.stderr.write("I am unable to connect to destination database:\n\n%s\n" % e)
         sys.exit(1)
