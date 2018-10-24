@@ -69,8 +69,8 @@ How-to
 Bugs
 ====
 
-* Tested migrating from AWX 1.8.7 to 2.0.1.
-  Several objects where not restored due to missing users: there's bug in 1.8
+* Tested migrating from AWX 1.0.7.2 to 2.0.1.
+  Several objects where not restored due to missing users: there's bug in 1.0.x?
   where the export of users is broken/missing so that tower-cli cannot import
   them again.
   (see https://github.com/ansible/tower-cli/pull/586#issuecomment-432176155)
