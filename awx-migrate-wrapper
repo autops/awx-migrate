@@ -16,4 +16,4 @@
 #export AWX_DST_DBHOST='localhost'
 #export AWX_DST_DBPORT='5433'
 
-./awx-receive $0
+./awx-migrate $0
