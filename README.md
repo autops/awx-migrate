@@ -56,8 +56,9 @@ How-to
   the latter for the destination instance
 * configure `tower-cli config` to connect to the *source* awx instance you want
   to migrate from
-* execute `awx-migrate-wrapper` and redirect stdout to a temp file,
-  say `awx-data.json`
+* execute `awx-migrate-wrapper` and it will redirect stdout to `awx-data.json`,
+  then split each asset_type in different files so you can restore them
+  seperately and in the best possible way.
 * watch stderr for possible error messages
 * if you use LDAP or other config settings that require an encrypted secret,
   update it manually

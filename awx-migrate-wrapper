@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if ! which jq >/dev/null
+then
+    echo "Please install the jq commandline JSON processor!"
+    exit 1
+fi
+
 ## overrule where needed
 
 #export AWX_SRC_SECRET_KEY='awxsecret'
@@ -16,4 +22,24 @@
 #export AWX_DST_DBHOST='localhost'
 #export AWX_DST_DBPORT='5433'
 
-./awx-migrate $0
+## constants
+datafbase="awx-data"
+datafile="${datafbase}.json"
+./awx-migrate $0 > "${datafile}"
+
+# Best order to restore?
+AWX_OBJECTS="user organization team credential_type credential project inventory_script inventory job_template"
+
+echo
+echo "To restore, run:"
+echo
+echo "  tower-cli send ${datafbase}.json"
+echo
+echo "Or, restore only specific objects, or in paritcular order with one of:"
+echo
+for obj in ${AWX_OBJECTS}
+do
+    jq "[ .[] | select(.asset_type==\"${obj}\") ]" "${datafile}" > "${datafbase}-${obj}.json"
+    echo "  tower-cli send ${datafbase}-${obj}.json"
+done
+echo
