@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# c-basic-offset: 4; tab-width: 4; indent-tabs-mode: t
+# vi: set shiftwidth=4 tabstop=4 noexpandtab:
+# :indentSize=4:tabSize=4:noTabs=false:
+
+set -o nounset
+set -o errexit
+set -o pipefail
+
+
 if ! which jq >/dev/null
 then
     echo "Please install the jq commandline JSON processor!"
@@ -25,7 +34,7 @@ fi
 ## constants
 datafbase="awx-data"
 datafile="${datafbase}.json"
-./awx-migrate $0 > "${datafile}"
+./awx-migrate > "${datafile}"
 
 # Best order to restore?
 AWX_OBJECTS="user organization team credential_type credential project inventory_script inventory job_template workflow notification_template"
@@ -43,3 +52,8 @@ do
     echo "  tower-cli send ${datafbase}-${obj}.json"
 done
 echo
+
+echo "Also filtering content of dynamic inventories (with sources) ino filtered_[].json files."
+echo
+./awx-remove-dyninv-content "${datafbase}.json" > "filtered_${datafbase}.json"
+./awx-remove-dyninv-content "${datafbase}-inventory.json" > "filtered_${datafbase}-inventory.json"

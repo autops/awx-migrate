@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+
+# Copyright 2018 Serge van Ginderachter <serge@vanginderachter.be>
+# Copyright Ansible AWX and tower-cli contributors
+# Licensed under the Apache License, Version 2.0
+
+import json
+import sys
+
+datafile = sys.argv[1]
+with open(datafile, 'r') as f:
+    data = f.read()
+awx_data = json.loads(data)
+
+for obj in awx_data:
+    # this is quick and dirty, will remove inventories
+    # with combined static and dynamic sources!
+    if (obj['asset_type'] == 'inventory' and
+            'asset_relation' in obj and
+            'inventory_source' in obj['asset_relation'] and
+            obj['asset_relation']['inventory_source'] != []):
+        obj['asset_relation']['group'] = []
+        obj['asset_relation']['host'] = []
+
+sys.stdout.write(json.dumps(awx_data))
