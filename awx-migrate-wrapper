@@ -28,7 +28,7 @@ datafile="${datafbase}.json"
 ./awx-migrate $0 > "${datafile}"
 
 # Best order to restore?
-AWX_OBJECTS="user organization team credential_type credential project inventory_script inventory job_template"
+AWX_OBJECTS="user organization team credential_type credential project inventory_script inventory job_template workflow"
 
 echo
 echo "To restore, run:"
