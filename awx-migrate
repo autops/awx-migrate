@@ -33,7 +33,7 @@ AWX_SRC_DBPORT = os.getenv('AWX_SRC_DBPORT', '5432')
 AWX_DST_SECRET_KEY = os.getenv('AWX_DST_SECRET_KEY', 'awxsecret')
 AWX_DST_DBNAME = os.getenv('AWX_DST_DBNAME', 'awx')
 AWX_DST_DBUSER = os.getenv('AWX_DST_DBUSER', 'awx')
-AWX_DST_DBPASSWORD = os.getenv('AWX_DST_DBPORT2_DBPASSWORD', 'awxpass')
+AWX_DST_DBPASSWORD = os.getenv('AWX_DST_DBPASSWORD', 'awxpass')
 AWX_DST_DBHOST = os.getenv('AWX_DST_DBHOST', 'localhost')
 AWX_DST_DBPORT = os.getenv('AWX_DST_DBPORT', '5433')
 
