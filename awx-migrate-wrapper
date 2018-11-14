@@ -36,6 +36,10 @@ datafbase="awx-data"
 datafile="${datafbase}.json"
 ./awx-migrate > "${datafile}"
 
+echo "AWX settings where migarted, except passwords. Update those manually: E.g.:
+		    # tower-cli setting set AUTH_LDAP_BIND_PASSWORD '53cr37'
+"
+
 # Best order to restore?
 AWX_OBJECTS="user organization team credential_type credential notification_template inventory_script project inventory job_template workflow "
 

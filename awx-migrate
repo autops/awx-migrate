@@ -340,6 +340,9 @@ def awx_migratedb_conf():
         row.pop(0)
         _insert_update(conn2, row)
 
+    # TODO update LDAP password
+    # tower-cli setting set AUTH_LDAP_BIND_PASSWORD
+
 
 def main():
 
