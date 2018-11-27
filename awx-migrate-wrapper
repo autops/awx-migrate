@@ -57,7 +57,6 @@ do
 done
 echo
 
-echo "Also filtering content of dynamic inventories (with sources) ino filtered_[].json files."
+echo "Also filtering content of dynamic inventories (with sources) into []_filtered.json files."
 echo
-./awx-remove-dyninv-content "${datafbase}.json" > "filtered_${datafbase}.json"
-./awx-remove-dyninv-content "${datafbase}-inventory.json" > "filtered_${datafbase}-inventory.json"
+./awx-remove-dyninv-content "${datafbase}-inventory.json" > "${datafbase}-inventory-filtered.json"
