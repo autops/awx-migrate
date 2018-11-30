@@ -347,7 +347,7 @@ def awx_migratedb_conf():
 def main():
 
     '''
-    migaret config settings from old to new awx instance
+    migrate config settings from old to new awx instance
     dump export of old awx instance wit passwords in clear text
     so it can be imported by the new awx instance via tower-cli
     '''
