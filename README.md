@@ -7,7 +7,7 @@ tower-cli command, makes a full backup of an AWX instance, and adds the secrets
 to the exported credentials, which tower-cli leaves empty.
 
 It then dumps the whole export including credential secrets in json to stdout,
-which you can redirect to a file. It also takes al config settings from the
+which you can redirect to a file. It also takes all config settings from the
 database - including LDAP settings and adds or updates them in a new instance.
 
 This tool allows you to fully migrate an AWX setup, and is a workaround for not
