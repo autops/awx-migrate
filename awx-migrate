@@ -180,12 +180,20 @@ def awx_getdb_creds():
     for row in table:
         name = row[1]
         if name not in awx_creds:
-            cred = dict(pk=row[0],
-                        name=row[1],
-                        organization_id=row[2],
-                        inputs=row[3],
-                        credential_type_id=row[4],
-                        )
+            if type(row[3]) == str:
+                cred = dict(pk=row[0],
+                            name=row[1],
+                            organization_id=row[2],
+                            inputs=json.loads(row[3]),
+                            credential_type_id=row[4],
+                            )
+            else:
+                cred = dict(pk=row[0],
+                            name=row[1],
+                            organization_id=row[2],
+                            inputs=row[3],
+                            credential_type_id=row[4],
+                            )
             row2dict = {name: cred}
         else:
             _err = "duplicate cred found: %s", name
