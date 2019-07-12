@@ -36,7 +36,7 @@ datafbase="awx-data"
 datafile="${datafbase}.json"
 ./awx-migrate > "${datafile}"
 
-echo "AWX settings where migarted, except passwords. Update those manually: E.g.:
+echo "AWX settings where migrated, except passwords. Update those manually: E.g.:
 		    # tower-cli setting set AUTH_LDAP_BIND_PASSWORD '53cr37'
 "
 
